@@ -1,0 +1,138 @@
+.scroller-main-cont {
+  height: 100vh; // As needed
+  width: 100%; // As needed
+  background-color: red; // Test
+  display: grid;
+  grid-template: 1fr 1vw / 1fr 1vw;
+  position: relative;
+  overflow: hidden;
+  // scrollbar-color: transparent transparent;
+  // scrollbar-width: none;
+
+  // &::-webkit-scrollbar {
+  //   display: none;
+  // }
+
+  &.scrollerX {
+    grid-template: 1fr 1vw / 1fr 0;
+
+    > .scroller-cont {
+      overflow-y: hidden;
+
+      > .scroller-page-wrapper > .scroller-page {
+        height: 100%;
+        width: max-content;
+      }
+    }
+  }
+  &.scrollerY {
+    grid-template: 1fr 0 / 1fr 1vw;
+
+    > .scroller-cont {
+      overflow-x: hidden;
+
+      > .scroller-page-wrapper > .scroller-page {
+        height: max-content;
+        width: 100%;
+      }
+    }
+  }
+  &.auto-scrollerX {
+    grid-template: 1fr 0 / 1fr 1vw;
+
+    > .scroller-cont {
+      overflow-x: hidden;
+
+      > .scroller-page-wrapper > .scroller-page {
+        height: 100%;
+        width: max-content;
+      }
+    }
+  }
+  &.hide-scrollerY {
+    grid-template-columns: 1fr 0;
+  }
+  &.hide-scrollerX {
+    grid-template-rows: 1fr 0;
+  }
+
+  > .scroller-cont {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    overflow: auto;
+
+    > .scroller-page-wrapper {
+      height: 100%;
+      width: 100%;
+      position: sticky;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      overflow: hidden;
+
+      > .scroller-page {
+        height: max-content;
+        width: max-content;
+        position: relative;
+        top: 0;
+        left: 0;
+        transition: top 0.55s cubic-bezier(0.15, 0.35, 0.35, 0.95),
+          left 0.55s cubic-bezier(0.15, 0.35, 0.35, 0.95); // As needed
+        will-change: top, left;
+      }
+    }
+    > .scroller-height {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  > .scrollbarX-cont,
+  > .scrollbarY-cont {
+    height: 100%;
+    width: 100%;
+    background-color: rgb(85, 59, 182);
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+  }
+  > .scrollbarX-cont > .scrollbarX,
+  > .scrollbarY-cont > .scrollbarY {
+    background-color: rgb(179, 189, 39);
+    transform: translate(0, 0);
+    transition: transform 0.55s cubic-bezier(0.15, 0.35, 0.35, 0.95); // As needed
+    will-change: transform;
+    border-radius: 30px;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+// body.scroller-activated {
+//   user-select: none;
+//   // touch-action: none;
+
+//   .scroller-main-cont {
+//     touch-action: none;
+
+//     > .scroller-cont {
+//       touch-action: none;
+//       > .scroller-page-wrapper {
+//         pointer-events: none;
+//       }
+//       > .scrollbarX-cont > .scrollbarX,
+//       > .scrollbarY-cont > .scrollbarY {
+//         transition: none;
+//       }
+//     }
+//   }
+// }
+
+// Test
+.scroller-page {
+  background: repeating-linear-gradient(white 35%, rgb(175, 175, 175) 55%);
+}

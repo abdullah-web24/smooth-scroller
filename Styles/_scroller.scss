@@ -1,0 +1,209 @@
+body {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+
+  .scroller-main-cont {
+    height: 100%; // As needed
+    width: 100%; // As needed
+    // background-color: red; // Test
+    position: relative;
+    display: block;
+    overflow: auto;
+
+    &:not(.default-scroller) {
+      scrollbar-color: transparent transparent;
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    &.scrollerX {
+      overflow-y: hidden;
+
+      > .scroller-cont {
+        grid-template: 1fr 0.5vw / 1fr 0;
+
+        > .scroller-page-wrapper > .scroller-page {
+          height: 100%;
+          width: max-content;
+        }
+      }
+    }
+    &.scrollerY {
+      overflow-x: hidden;
+
+      > .scroller-cont {
+        grid-template: 1fr 0 / 1fr 0.5vw;
+
+        > .scroller-page-wrapper > .scroller-page {
+          height: max-content;
+          width: 100%;
+
+          .sub-scroller-main-cont {
+            height: max-content;
+            width: 100%; // As needed
+            display: block;
+
+            > .sub-scroller-cont {
+              height: 100vh;
+              width: 100%;
+              display: grid;
+              position: sticky;
+              top: 0;
+              left: 0;
+              z-index: 1;
+              overflow: hidden;
+              // background-color: skyblue; // As needed
+
+              > .sub-scroller-page {
+                height: 100%;
+                width: max-content;
+                display: block;
+                position: relative;
+                top: 0;
+                left: 0;
+                transition: left 0.05s, transform 0.05s;
+                will-change: left;
+              }
+            }
+            > .scroller-height {
+              height: 100%;
+              width: 100%;
+              display: block;
+              // background-color: red; //As needed
+            }
+          }
+        }
+      }
+    }
+    &.auto-scrollerX {
+      overflow-x: hidden;
+
+      > .scroller-cont {
+        grid-template: 1fr 0 / 1fr 0.5vw;
+
+        > .scroller-page-wrapper > .scroller-page {
+          height: 100%;
+          width: max-content;
+        }
+      }
+    }
+    &.hide-scrollerY > .scroller-cont {
+      grid-template-columns: 1fr 0;
+    }
+    &.hide-scrollerX > .scroller-cont {
+      grid-template-rows: 1fr 0;
+    }
+
+    > .scroller-cont {
+      height: 100%;
+      width: 100%;
+      display: block;
+      position: sticky;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      display: grid;
+      grid-template: 1fr 0.5vw / 1fr 0.5vw;
+
+      > .scroller-page-wrapper {
+        height: 100%;
+        width: 100%;
+        display: block;
+        position: relative;
+        overflow: hidden;
+
+        > .scroller-page {
+          height: max-content;
+          width: max-content;
+          display: block;
+          position: relative;
+          top: 0;
+          left: 0;
+          // transition: top 0.55s cubic-bezier(0.15, 0.35, 0.35, 0.95),
+          //   left 0.55s cubic-bezier(0.15, 0.35, 0.35, 0.95),
+          //   transform 0.55s cubic-bezier(0.15, 0.35, 0.35, 0.95); // Heavy
+          // transition: 0.55s cubic-bezier(0, 0.15, 0.35, 1.5); // Bouncing
+          transition: top 0.45s cubic-bezier(0.25, 0.7, 0.25, 0.95),
+            left 0.45s cubic-bezier(0.25, 0.7, 0.25, 0.95),
+            transform 0.45s cubic-bezier(0.25, 0.7, 0.25, 0.95); // Smooth
+          will-change: top, left;
+        }
+      }
+
+      > .scrollbarX-cont,
+      > .scrollbarY-cont {
+        height: 100%;
+        width: 100%;
+        // background-color: rgb(85, 59, 182);
+        display: block;
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+      }
+      > .scrollbarX-cont > .scrollbarX,
+      > .scrollbarY-cont > .scrollbarY {
+        height: 100%;
+        width: 100%;
+        background-color: rgba(245, 245, 245, 0.35);
+        display: block;
+        transform: translate(0, 0);
+        // transition: transform 0.55s cubic-bezier(0.15, 0.35, 0.35, 0.95); // Heavy
+        // transition: 0.55s cubic-bezier(0, 0.15, 0.35, 1.5); // Bouncing
+        transition: transform 0.45s cubic-bezier(0.25, 0.7, 0.25, 0.95),
+          background-color 0.45s cubic-bezier(0.25, 0.7, 0.25, 0.95); // Smooth
+        will-change: transform;
+        border-radius: 0.5vw;
+        cursor: grab;
+
+        &:hover {
+          background-color: rgba(245, 245, 245, 0.7);
+        }
+        &:active {
+          background-color: rgba(245, 245, 245, 0.95);
+          cursor: grabbing;
+        }
+      }
+    }
+
+    > .scroller-height {
+      height: 100%;
+      width: 100%;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  &.scroller-activated {
+    user-select: none;
+    touch-action: none;
+    cursor: grabbing;
+
+    .scroller-main-cont > .scroller-cont {
+      > .scroller-page-wrapper {
+        pointer-events: none;
+      }
+      > .scrollbarX-cont > .scrollbarX,
+      > .scrollbarY-cont > .scrollbarY {
+        transition: none;
+      }
+    }
+  }
+}
+
+// Test
+// .scroller-page {
+//   background: repeating-linear-gradient(white 35%, rgb(175, 175, 175) 55%);
+// }
+// .sub-scroller-page {
+//   display: flex;
+//   h1 {
+//     width: 100vw;
+//     background-color: rgb(60, 102, 64);
+//   }
+// }

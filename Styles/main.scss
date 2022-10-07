@@ -1,0 +1,117 @@
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+@import "./scroller";
+
+body {
+  font-family: "Inter", sans-serif;
+  background-color: rgb(25, 25, 25);
+  color: rgb(245, 245, 245);
+
+  h1 {
+    font-size: 7.5vw;
+    font-weight: 800;
+    margin-bottom: 2.25vw;
+  }
+  h2 {
+    font-size: 4.75vw;
+    font-weight: 800;
+    margin-bottom: 1.75vw;
+  }
+  h3 {
+    font-size: 3vw;
+    font-weight: 600;
+    margin-bottom: 1vw;
+  }
+  p {
+    font-size: 1vw;
+    width: 25vw;
+  }
+  a {
+    display: block;
+    width: max-content;
+    height: max-content;
+    font-size: 1.25vw;
+    padding: 1vw 1.75vw;
+    background-color: rgba(245, 245, 245, 0.5);
+    color: rgb(245, 245, 245);
+  }
+  .sect {
+    padding: 7vw;
+  }
+
+  main {
+    .hero-sect {
+      padding-top: 3.5vw;
+      height: 100vh;
+      position: relative;
+
+      .scroll-indicator {
+        width: auto;
+        text-align: right;
+        margin-top: 3vw;
+      }
+    }
+    .sub-scroller-main-cont {
+      .sect {
+        height: 100%;
+        width: 100%;
+        background-color: rgb(55, 65, 145);
+        display: flex;
+        padding-top: 7vw;
+        padding-bottom: 5vw;
+
+        .box {
+          flex-shrink: 0;
+          height: 100%;
+          width: 55vw;
+          background-color: rgba(245, 245, 245, 0.25);
+          margin-right: 15vw;
+
+          &:first-of-type {
+            background: none;
+          }
+          &:nth-of-type(3) {
+            margin-right: 0;
+          }
+          h3,
+          p,
+          a {
+            margin: 3vw;
+          }
+        }
+      }
+    }
+    .sect {
+      .cont {
+        display: flex;
+        margin-top: 5vw;
+
+        .scroller-main-cont {
+          height: 25vw;
+          margin-right: 3vw;
+          background-color: rgb(55, 65, 145);
+
+          &:last-of-type {
+            margin: 0;
+          }
+          .scroller-page {
+            padding: 3vw 2.5vw;
+          }
+        }
+      }
+    }
+  }
+}
+
+// .auto-scroll-x > .scroller-cont > .scroller-page-wrapper > .scroller-page {
+//   display: flex;
+// }
+// .scrollerX > .scroller-cont > .scroller-page-wrapper > .scroller-page {
+//   display: flex;
+// }

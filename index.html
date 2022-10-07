@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smooth scroller JS</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="./Styles/main.css" />
+    <script src="./Scripts/scroller.js" defer></script>
+  </head>
+
+  <body>
+    <main class="scroller-main-cont scrollerY">
+      <div class="hero-sect sect">
+        <h1>
+          The smooth <span>-></span> <br />
+          experience with <br />
+          all accessibility
+        </h1>
+        <p>
+          A JavaScript smooth scroll library for a better user experience with
+          all accessibility. A great addition to the modern or luxury classic
+          brand website.
+        </p>
+        <p class="scroll-indicator">Scroll down</p>
+      </div>
+
+      <div class="sub-scroller-main-cont">
+        <div class="sect">
+          <div class="box">
+            <h2>
+              You can scroll <br />
+              multiple axis with <br />
+              single scrollbar.
+            </h2>
+            <p>
+              This is an extra feature specially made for classic and unique
+              layout design. This helps to create great visual interest on the
+              website.
+            </p>
+            <a href="#" style="margin-top: 3vw">Tab navigation - 1</a>
+          </div>
+          <div class="box">
+            <h3>
+              You can remove tab foccus to <br />
+              a spacific element by giving <br />
+              the attribute -> tabindex="-1"
+            </h3>
+            <a href="#" tabindex="-1">Not tab navigation</a>
+          </div>
+          <div class="box" tabindex="1">
+            <h3>
+              You can add tab foccus to <br />
+              a spacific element by giving <br />
+              the attribute -> tabindex="1"
+            </h3>
+            <p>This is Tab navigation - 2</p>
+          </div>
+        </div>
+      </div>
+      <div class="sect">
+        <h2>
+          You can use four <br />
+          type of scrollbars.
+        </h2>
+        <div class="cont">
+          <div class="scroller-main-cont scrollerY">
+            <h3>Scroll only Y axis.</h3>
+            <a href="#" style="margin-top: 25vw">Tab navigation - 3</a>
+          </div>
+          <div class="scroller-main-cont scrollerX">
+            <h3>Scroll only X axis.</h3>
+            <a href="#" style="margin-left: 75vw">Tab navigation - 4</a>
+          </div>
+        </div>
+        <div class="cont">
+          <div class="scroller-main-cont auto-scrollerX">
+            <h3>Scroll X by Y scroller.</h3>
+            <a href="#" style="margin-left: 75vw">Tab navigation - 5</a>
+          </div>
+          <div class="scroller-main-cont">
+            <h3>Scroll both axis.</h3>
+            <a href="#" style="margin-left: 75vw; margin-top: 25vw"
+              >Tab navigation - 6</a
+            >
+          </div>
+        </div>
+      </div>
+      <div class="sect">
+        <h3>
+          You can use any pointer to scroll the page like a default scroller.
+          These are scroller wheel, middle mouse button, Tab key, arrow key,
+          touch etc.
+        </h3>
+        <a href="#" style="margin-top: 3vw">Tab navigation - 7</a>
+      </div>
+      <div class="sect">
+        <h3>
+          Very easy to use. Just you will need to add the class to the main
+          container. All animations are handled by CSS! You can customize the
+          animation in CSS.
+        </h3>
+      </div>
+      <div class="sect">
+        <h3>Parallax effect is comming soon...</h3>
+      </div>
+    </main>
+  </body>
+</html>

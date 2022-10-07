@@ -1,0 +1,285 @@
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+body .scroller-main-cont {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  display: block;
+  overflow: auto;
+}
+body .scroller-main-cont:not(.default-scroller) {
+  scrollbar-color: transparent transparent;
+  scrollbar-width: none;
+}
+body .scroller-main-cont:not(.default-scroller)::-webkit-scrollbar {
+  display: none;
+}
+body .scroller-main-cont.scrollerX {
+  overflow-y: hidden;
+}
+body .scroller-main-cont.scrollerX > .scroller-cont {
+  grid-template: 1fr 0.5vw/1fr 0;
+}
+body .scroller-main-cont.scrollerX > .scroller-cont > .scroller-page-wrapper > .scroller-page {
+  height: 100%;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+body .scroller-main-cont.scrollerY {
+  overflow-x: hidden;
+}
+body .scroller-main-cont.scrollerY > .scroller-cont {
+  grid-template: 1fr 0/1fr 0.5vw;
+}
+body .scroller-main-cont.scrollerY > .scroller-cont > .scroller-page-wrapper > .scroller-page {
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+  width: 100%;
+}
+body .scroller-main-cont.scrollerY > .scroller-cont > .scroller-page-wrapper > .scroller-page .sub-scroller-main-cont {
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+  width: 100%;
+  display: block;
+}
+body .scroller-main-cont.scrollerY > .scroller-cont > .scroller-page-wrapper > .scroller-page .sub-scroller-main-cont > .sub-scroller-cont {
+  height: 100vh;
+  width: 100%;
+  display: grid;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  overflow: hidden;
+}
+body .scroller-main-cont.scrollerY > .scroller-cont > .scroller-page-wrapper > .scroller-page .sub-scroller-main-cont > .sub-scroller-cont > .sub-scroller-page {
+  height: 100%;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  display: block;
+  position: relative;
+  top: 0;
+  left: 0;
+  transition: left 0.05s, transform 0.05s;
+  will-change: left;
+}
+body .scroller-main-cont.scrollerY > .scroller-cont > .scroller-page-wrapper > .scroller-page .sub-scroller-main-cont > .scroller-height {
+  height: 100%;
+  width: 100%;
+  display: block;
+}
+body .scroller-main-cont.auto-scrollerX {
+  overflow-x: hidden;
+}
+body .scroller-main-cont.auto-scrollerX > .scroller-cont {
+  grid-template: 1fr 0/1fr 0.5vw;
+}
+body .scroller-main-cont.auto-scrollerX > .scroller-cont > .scroller-page-wrapper > .scroller-page {
+  height: 100%;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+body .scroller-main-cont.hide-scrollerY > .scroller-cont {
+  grid-template-columns: 1fr 0;
+}
+body .scroller-main-cont.hide-scrollerX > .scroller-cont {
+  grid-template-rows: 1fr 0;
+}
+body .scroller-main-cont > .scroller-cont {
+  height: 100%;
+  width: 100%;
+  display: block;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: grid;
+  grid-template: 1fr 0.5vw/1fr 0.5vw;
+}
+body .scroller-main-cont > .scroller-cont > .scroller-page-wrapper {
+  height: 100%;
+  width: 100%;
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+body .scroller-main-cont > .scroller-cont > .scroller-page-wrapper > .scroller-page {
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  display: block;
+  position: relative;
+  top: 0;
+  left: 0;
+  transition: top 0.45s cubic-bezier(0.25, 0.7, 0.25, 0.95), left 0.45s cubic-bezier(0.25, 0.7, 0.25, 0.95), transform 0.45s cubic-bezier(0.25, 0.7, 0.25, 0.95);
+  will-change: top, left;
+}
+body .scroller-main-cont > .scroller-cont > .scrollbarX-cont,
+body .scroller-main-cont > .scroller-cont > .scrollbarY-cont {
+  height: 100%;
+  width: 100%;
+  display: block;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+body .scroller-main-cont > .scroller-cont > .scrollbarX-cont > .scrollbarX,
+body .scroller-main-cont > .scroller-cont > .scrollbarY-cont > .scrollbarY {
+  height: 100%;
+  width: 100%;
+  background-color: rgba(245, 245, 245, 0.35);
+  display: block;
+  transform: translate(0, 0);
+  transition: transform 0.45s cubic-bezier(0.25, 0.7, 0.25, 0.95), background-color 0.45s cubic-bezier(0.25, 0.7, 0.25, 0.95);
+  will-change: transform;
+  border-radius: 0.5vw;
+  cursor: -webkit-grab;
+  cursor: grab;
+}
+body .scroller-main-cont > .scroller-cont > .scrollbarX-cont > .scrollbarX:hover,
+body .scroller-main-cont > .scroller-cont > .scrollbarY-cont > .scrollbarY:hover {
+  background-color: rgba(245, 245, 245, 0.7);
+}
+body .scroller-main-cont > .scroller-cont > .scrollbarX-cont > .scrollbarX:active,
+body .scroller-main-cont > .scroller-cont > .scrollbarY-cont > .scrollbarY:active {
+  background-color: rgba(245, 245, 245, 0.95);
+  cursor: -webkit-grabbing;
+  cursor: grabbing;
+}
+body .scroller-main-cont > .scroller-height {
+  height: 100%;
+  width: 100%;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+body.scroller-activated {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  touch-action: none;
+  cursor: -webkit-grabbing;
+  cursor: grabbing;
+}
+body.scroller-activated .scroller-main-cont > .scroller-cont > .scroller-page-wrapper {
+  pointer-events: none;
+}
+body.scroller-activated .scroller-main-cont > .scroller-cont > .scrollbarX-cont > .scrollbarX,
+body.scroller-activated .scroller-main-cont > .scroller-cont > .scrollbarY-cont > .scrollbarY {
+  transition: none;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background-color: rgb(25, 25, 25);
+  color: rgb(245, 245, 245);
+}
+body h1 {
+  font-size: 7.5vw;
+  font-weight: 800;
+  margin-bottom: 2.25vw;
+}
+body h2 {
+  font-size: 4.75vw;
+  font-weight: 800;
+  margin-bottom: 1.75vw;
+}
+body h3 {
+  font-size: 3vw;
+  font-weight: 600;
+  margin-bottom: 1vw;
+}
+body p {
+  font-size: 1vw;
+  width: 25vw;
+}
+body a {
+  display: block;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+  font-size: 1.25vw;
+  padding: 1vw 1.75vw;
+  background-color: rgba(245, 245, 245, 0.5);
+  color: rgb(245, 245, 245);
+}
+body .sect {
+  padding: 7vw;
+}
+body main .hero-sect {
+  padding-top: 3.5vw;
+  height: 100vh;
+  position: relative;
+}
+body main .hero-sect .scroll-indicator {
+  width: auto;
+  text-align: right;
+  margin-top: 3vw;
+}
+body main .sub-scroller-main-cont .sect {
+  height: 100%;
+  width: 100%;
+  background-color: rgb(55, 65, 145);
+  display: flex;
+  padding-top: 7vw;
+  padding-bottom: 5vw;
+}
+body main .sub-scroller-main-cont .sect .box {
+  flex-shrink: 0;
+  height: 100%;
+  width: 55vw;
+  background-color: rgba(245, 245, 245, 0.25);
+  margin-right: 15vw;
+}
+body main .sub-scroller-main-cont .sect .box:first-of-type {
+  background: none;
+}
+body main .sub-scroller-main-cont .sect .box:nth-of-type(3) {
+  margin-right: 0;
+}
+body main .sub-scroller-main-cont .sect .box h3,
+body main .sub-scroller-main-cont .sect .box p,
+body main .sub-scroller-main-cont .sect .box a {
+  margin: 3vw;
+}
+body main .sect .cont {
+  display: flex;
+  margin-top: 5vw;
+}
+body main .sect .cont .scroller-main-cont {
+  height: 25vw;
+  margin-right: 3vw;
+  background-color: rgb(55, 65, 145);
+}
+body main .sect .cont .scroller-main-cont:last-of-type {
+  margin: 0;
+}
+body main .sect .cont .scroller-main-cont .scroller-page {
+  padding: 3vw 2.5vw;
+}/*# sourceMappingURL=main.css.map */
