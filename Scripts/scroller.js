@@ -94,13 +94,13 @@ const smoothScroller = function (settings) {
     let theValue = theObj.mainCont.getBoundingClientRect().top;
     if (theValue < 0 && theValue > -theObj.heightEl.clientHeight) {
       theObj.page.style.left = `${theValue}px`;
-      console.log("Hi 1");
+      // console.log("Hi 1");
     } else if (theValue >= 0) {
       theObj.page.style.left = `0`;
       // console.log("Hi 2");
     } else if (theValue <= -theObj.heightEl.clientHeight) {
       theObj.page.style.left = `${-theObj.heightEl.clientHeight}px`;
-      console.log("Hi 3");
+      // console.log("Hi 3");
     }
   };
 
@@ -115,10 +115,8 @@ const smoothScroller = function (settings) {
 
   const allTabNavigators = tabNavigatorFinder(allScrollerEls[0]);
   let activeNavIndex = -1;
-
   let activeScrollObj = undefined,
     scrollerExtraValue = 0;
-
   const minScrollbarHeight = Math.round(innerWidth * (2.5 / 100));
 
   // ----- Initialisations //
@@ -273,11 +271,6 @@ const smoothScroller = function (settings) {
     scrollHeightFixer(theObj, elHeightCalc(theObj));
     allScrollerObjs.push(theObj);
 
-    tabNavigatorFinder(theEl).forEach((el) => {
-      const dataSet = el.dataset.tabSet;
-      el.dataset.tabSet = dataSet ? dataSet + ` ${i}` : i;
-    });
-
     [...theEl.querySelectorAll(".sub-scroller-main-cont")].forEach((el) => {
       el.dataset.mainScrollerIndex = i;
     });
@@ -301,14 +294,6 @@ const smoothScroller = function (settings) {
         theEvent.preventDefault();
       });
     }
-  });
-
-  allSubScrollerEls.forEach((theEl, i) => {
-    tabNavigatorFinder(theEl).forEach((el) => {
-      if (el.dataset.tabSet.endsWith(theEl.dataset.mainScrollerIndex)) {
-        el.dataset.subScrollerNestedInedx = i;
-      }
-    });
   });
 
   // Scrollbar thumb mover events
@@ -376,24 +361,28 @@ const smoothScroller = function (settings) {
   };
 
   // Scroll to any point - Function
+  const subScrollerNestedInedxFinder = (theEl) => {
+    let subScrollerNestedInedx = undefined;
+    allSubScrollerEls.forEach((el) => {
+      if (el.contains(theEl))
+        subScrollerNestedInedx = el.dataset.mainScrollerIndex;
+    });
+    return subScrollerNestedInedx;
+  };
+
   const scrollToPoint = (theEl, parentObj, screenOffsets) => {
     let offsetLeft,
       offsetTop,
-      mainCont = parentObj.mainCont;
+      mainCont = parentObj.mainCont,
+      subScrollerNestedInedx = subScrollerNestedInedxFinder(theEl);
 
-    screenOffsets =
-      screenOffsets === undefined
-        ? [mainCont.clientWidth / 3, mainCont.clientHeight / 3]
-        : screenOffsets;
-
-    if (!theEl.dataset.subScrollerNestedInedx) {
+    if (subScrollerNestedInedx === undefined) {
       [offsetLeft, offsetTop] = offsetCalc(theEl, parentObj);
     }
 
     if (mainCont.classList.contains("scrollerY")) {
-      if (theEl.dataset.subScrollerNestedInedx) {
-        let subScrollerNestedObj =
-          allSubScrollerObjs[theEl.dataset.subScrollerNestedInedx];
+      if (subScrollerNestedInedx !== undefined) {
+        let subScrollerNestedObj = allSubScrollerObjs[subScrollerNestedInedx];
 
         [offsetLeft, offsetTop] = offsetCalc(theEl, subScrollerNestedObj);
 
@@ -484,6 +473,45 @@ const smoothScroller = function (settings) {
   };
   scrollerAnimator();
 
+  // Scroll to a element - function
+  const navSetCalc = (theEl) => {
+    const navSet = [];
+
+    allScrollerEls.forEach((el, i) => {
+      if (el.contains(theEl)) navSet.push(i);
+    });
+    return navSet.sort();
+  };
+
+  const scrollToPointScroller = (activeEl, screenOffsets) => {
+    let activeElNavSet = navSetCalc(activeEl),
+      currentNavObj =
+        allScrollerObjs[activeElNavSet[activeElNavSet.length - 1]];
+
+    screenOffsets =
+      screenOffsets === undefined
+        ? [
+            currentNavObj.mainCont.clientWidth / 3,
+            currentNavObj.mainCont.clientHeight / 3,
+          ]
+        : screenOffsets;
+
+    activeEl.focus();
+
+    activeElNavSet.forEach((tabSetIndex, i) => {
+      if (i !== 0)
+        scrollToPoint(
+          allScrollerObjs[tabSetIndex].mainCont,
+          allScrollerObjs[activeElNavSet[i - 1]],
+          [0, 0]
+        );
+
+      allScrollerObjs[tabSetIndex].pageWrapper.scrollTo(0, 0);
+    });
+
+    scrollToPoint(activeEl, currentNavObj, screenOffsets);
+  };
+
   // Tab navigator - function
   window.addEventListener("keydown", (theEvent) => {
     if (theEvent.code === "Tab") {
@@ -500,32 +528,31 @@ const smoothScroller = function (settings) {
             : activeNavIndex - 1;
       }
 
-      let activeEl = allTabNavigators[activeNavIndex],
-        activeElTabSet = activeEl.dataset.tabSet.split(" "),
-        currentNavObj =
-          allScrollerObjs[activeElTabSet[activeElTabSet.length - 1]];
-
-      activeEl.focus();
-
-      activeElTabSet.forEach((tabSetIndex, i) => {
-        if (i !== 0)
-          scrollToPoint(
-            allScrollerObjs[tabSetIndex].mainCont,
-            allScrollerObjs[activeElTabSet[i - 1]],
-            [0, 0]
-          );
-
-        allScrollerObjs[tabSetIndex].pageWrapper.scrollTo(0, 0);
-      });
-
-      scrollToPoint(activeEl, currentNavObj);
+      let activeEl = allTabNavigators[activeNavIndex];
+      scrollToPointScroller(activeEl);
     }
+  });
+
+  // Navigation by Anchor
+  const scrollToPointEls = [...document.querySelectorAll("a")].filter((theEl) =>
+    theEl.getAttribute("href").includes("#")
+  );
+
+  scrollToPointEls.forEach((theEl) => {
+    let targetEl = document.getElementById(theEl.getAttribute("href").slice(1));
+    theEl.addEventListener("pointerdown", (theEvent) => {
+      theEvent.preventDefault();
+      if (targetEl !== undefined) scrollToPointScroller(targetEl, [0, 0]);
+    });
   });
   // ---
   // ----- Main Scroller functions //
 
   // Setting's statement
-  if (settings.accessMainObjects) return allScrollerObjs;
+  if (settings.accessMainObjects)
+    return { allScrollerObjs, allSubScrollerObjs };
 };
 
 smoothScroller();
+
+// --------------- Alhamdulillah
