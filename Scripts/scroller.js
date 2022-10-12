@@ -541,7 +541,7 @@ const smoothScroller = function (settings) {
   scrollToPointEls.forEach((theEl) => {
     let targetEl = document.getElementById(theEl.getAttribute("href").slice(1));
     theEl.addEventListener("pointerdown", (theEvent) => {
-      if (targetEl !== undefined) {
+      if (targetEl) {
         theEvent.preventDefault();
         scrollToPointScroller(targetEl, [0, 0]);
       }
