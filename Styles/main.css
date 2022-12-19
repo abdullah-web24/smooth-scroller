@@ -202,7 +202,7 @@ body.scroller-activated .scroller-main-cont > .scrollbarY-cont > .scrollbarY {
 
 @media screen and (max-width: 790px) {
   :root {
-    --scroller-transition: 0.1s var(--scroller-cubic-bezier);
+    --scroller-transition: 0.25s var(--scroller-cubic-bezier);
   }
 }
 body {
