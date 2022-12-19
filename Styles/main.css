@@ -6,6 +6,11 @@
   box-sizing: border-box;
 }
 
+:root {
+  --scroller-cubic-bezier: cubic-bezier(0.15, 0.7, 0.35, 1);
+  --scroller-transition: 0.5s var(--scroller-cubic-bezier);
+}
+
 body {
   height: 100vh;
   width: 100vw;
@@ -19,6 +24,7 @@ body .scroller-main-cont {
   overflow: auto;
 }
 body .scroller-main-cont:not(.default-scroller) {
+  -ms-overflow-style: none;
   scrollbar-color: transparent transparent;
   scrollbar-width: none;
 }
@@ -132,8 +138,8 @@ body .scroller-main-cont > .scroller-cont > .scroller-page-wrapper > .scroller-p
   position: relative;
   top: 0;
   left: 0;
-  transition: top 0.45s cubic-bezier(0.25, 0.7, 0.25, 0.95), left 0.45s cubic-bezier(0.25, 0.7, 0.25, 0.95), transform 0.45s cubic-bezier(0.25, 0.7, 0.25, 0.95);
-  will-change: top, left;
+  transition: top var(--scroller-transition), left var(--scroller-transition), transform var(--scroller-transition);
+  will-change: top, left, transform;
 }
 body .scroller-main-cont > .scroller-cont > .scrollbarX-cont,
 body .scroller-main-cont > .scroller-cont > .scrollbarY-cont {
@@ -151,7 +157,7 @@ body .scroller-main-cont > .scroller-cont > .scrollbarY-cont > .scrollbarY {
   background-color: rgba(245, 245, 245, 0.35);
   display: block;
   transform: translate(0, 0);
-  transition: transform 0.45s cubic-bezier(0.25, 0.7, 0.25, 0.95), background-color 0.45s cubic-bezier(0.25, 0.7, 0.25, 0.95);
+  transition: transform var(--scroller-transition), background-color 0.3s var(--scroller-cubic-bezier);
   will-change: transform;
   border-radius: 0.5vw;
   cursor: -webkit-grab;
@@ -180,18 +186,25 @@ body.scroller-activated {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  touch-action: none;
   cursor: -webkit-grabbing;
   cursor: grabbing;
+}
+body.scroller-activated .scroller-main-cont {
+  touch-action: none;
 }
 body.scroller-activated .scroller-main-cont > .scroller-cont > .scroller-page-wrapper {
   pointer-events: none;
 }
-body.scroller-activated .scroller-main-cont > .scroller-cont > .scrollbarX-cont > .scrollbarX,
-body.scroller-activated .scroller-main-cont > .scroller-cont > .scrollbarY-cont > .scrollbarY {
+body.scroller-activated .scroller-main-cont > .scrollbarX-cont > .scrollbarX,
+body.scroller-activated .scroller-main-cont > .scrollbarY-cont > .scrollbarY {
   transition: none;
 }
 
+@media screen and (max-width: 790px) {
+  :root {
+    --scroller-transition: 0.3s var(--scroller-cubic-bezier);
+  }
+}
 body {
   font-family: "Inter", sans-serif;
   background-color: rgb(25, 25, 25);
@@ -282,4 +295,101 @@ body main .sect .cont .scroller-main-cont:last-of-type {
 }
 body main .sect .cont .scroller-main-cont .scroller-page {
   padding: 3vw 2.5vw;
+}
+body main .sect .cont-1 {
+  height: 250vh;
+  width: 100%;
+  background-color: rgb(55, 65, 145);
+  position: relative;
+}
+body main .sect .cont-1 .box {
+  height: 20vw;
+  width: 20vw;
+  background-color: rgb(245, 245, 245);
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+body main .sect .cont-1 .box .anim-1 {
+  height: 50%;
+  width: 100%;
+  background-color: black;
+}
+body main .sect .cont-1 .box .anim-3 {
+  height: 50%;
+  width: 100%;
+}
+body main .sect .cont-1 .break-point {
+  height: 1px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+body main .sect .cont-1 .break-point.point1 {
+  margin-top: calc(100vh - 20vw);
+  background-color: red;
+}
+body main .sect .cont-1 .break-point.point1::after {
+  content: "Starting point";
+  background-color: red;
+}
+body main .sect .cont-1 .break-point.point2 {
+  margin-top: 35vh;
+  background-color: red;
+}
+body main .sect .cont-1 .break-point.point2::after {
+  content: "Middle point";
+  background-color: red;
+}
+body main .sect .cont-1 .break-point.point3 {
+  margin-top: 30vh;
+  background-color: red;
+}
+body main .sect .cont-1 .break-point.point3::after {
+  content: "Finish point";
+  background-color: red;
+}
+body main .sect .cont-1 .break-point.point4 {
+  background-color: rgb(17, 155, 51);
+  margin-top: 45vh;
+}
+body main .sect .cont-1 .break-point.point4::after {
+  content: "Starting point";
+  background-color: rgb(17, 155, 51);
+}
+body main .sect .cont-1 .break-point.point5 {
+  background-color: rgb(17, 155, 51);
+  position: absolute;
+  bottom: 0;
+}
+body main .sect .cont-1 .break-point.point5::after {
+  content: "Finish point";
+  background-color: rgb(17, 155, 51);
+}
+body main .sect .cont-1 .break-point::after {
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  font-size: 0.75rem;
+  border-radius: 3px;
+  padding: 3px 5px;
+  display: block;
+}
+body main .sect .cont-2 {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 5vw;
+}
+body main .sect .cont-2 .parallux-element {
+  width: 100%;
+  height: 50vh;
+  background-color: rgb(55, 65, 145);
+  display: block;
 }/*# sourceMappingURL=main.css.map */

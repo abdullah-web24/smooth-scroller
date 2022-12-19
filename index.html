@@ -15,6 +15,7 @@
 
     <link rel="stylesheet" href="./Styles/main.css" />
     <script src="./Scripts/scroller.js" defer></script>
+    <script src="./Scripts/scroll-based-animator.js" defer></script>
   </head>
 
   <body>
@@ -50,7 +51,7 @@
               >Tab navigation - 1</a
             >
           </div>
-          <div class="box">
+          <div class="box my-box">
             <h3>
               You can remove tab foccus to <br />
               a spacific element by giving <br />
@@ -109,6 +110,31 @@
         </h3>
         <a href="#" style="margin-top: 3vw">Tab navigation - 7</a>
       </div>
+
+      <div class="sect">
+        <h2>Parallux simple animation</h2>
+        <div class="cont-2">
+          <div class="box-1 parallux-element"></div>
+          <div class="box-2 parallux-element"></div>
+          <div class="box-3 parallux-element"></div>
+        </div>
+      </div>
+
+      <div class="sect">
+        <h2>Complex animation</h2>
+        <div class="cont-1">
+          <div class="box">
+            <div class="anim-1"></div>
+            <div class="anim-2"></div>
+          </div>
+          <div class="break-point point1"></div>
+          <div class="break-point point2"></div>
+          <div class="break-point point3"></div>
+          <div class="break-point point4"></div>
+          <div class="break-point point5"></div>
+        </div>
+      </div>
+
       <div class="sect">
         <h3>
           Very easy to use. Just you will need to add the class to the main
@@ -117,8 +143,159 @@
         </h3>
       </div>
       <div class="sect">
-        <h3>Parallax effect is comming soon...</h3>
+        <h3>Thanks for your time.</h3>
       </div>
     </main>
+
+    <script>
+      onload = () => {
+        const myBox = document.querySelector(".my-box");
+
+        const boxEl1 = document.querySelector(".box-1"),
+          boxEl2 = document.querySelector(".box-2"),
+          boxEl3 = document.querySelector(".box-3");
+
+        const myEl0 = document.querySelector(".cont-1 .box"),
+          myEl1 = document.querySelector(".anim-1"),
+          myEl2 = document.querySelector(".anim-2");
+
+        const point1 = document.querySelector(".point1"),
+          point2 = document.querySelector(".point2"),
+          point3 = document.querySelector(".point3"),
+          point4 = document.querySelector(".point4"),
+          point5 = document.querySelector(".point5");
+
+        const sbAnimationObjs = [
+          // Simple animation - 0
+          {
+            pointEl: myBox,
+            axis: "x",
+            steps: [
+              () => {
+                myBox.style.transform = `translateY(0)`;
+              },
+              (percentage) => {
+                myBox.style.transform = `translateY(${7 * percentage}vw)`;
+              },
+              () => {
+                myBox.style.transform = `translateY(7vw)`;
+              },
+            ],
+            offsets: [innerWidth / 2, -innerWidth / 4],
+          },
+          // Simple animation - 1
+          {
+            pointEl: boxEl1,
+            steps: [
+              () => {
+                boxEl1.style.transform = `translateY(0)`;
+              },
+              (percentage) => {
+                boxEl1.style.transform = `translateY(${15 * percentage}vh)`;
+              },
+              () => {
+                boxEl1.style.transform = `translateY(15vh)`;
+              },
+            ],
+          },
+          // Simple animation - 2
+          {
+            pointEl: boxEl2,
+            steps: [
+              () => {
+                boxEl2.style.backgroundColor = `rgb(245, 245, 245)`;
+              },
+              (percentage) => {
+                boxEl2.style.backgroundColor = `rgb(${
+                  245 - (245 - 55) * percentage
+                }, ${245 - (245 - 65) * percentage}, ${
+                  245 - (245 - 145) * percentage
+                })`;
+              },
+              () => {
+                boxEl2.style.backgroundColor = `rgb(55, 65, 145)`;
+              },
+            ],
+          },
+          // Simple animation - 3
+          {
+            pointEl: boxEl3,
+            steps: [
+              () => {
+                boxEl3.style.transform = `translateY(0) rotateZ(0deg)`;
+              },
+              (percentage) => {
+                boxEl3.style.transform = `translateY(${
+                  -15 * percentage
+                }vh) rotateZ(${90 * percentage}deg)`;
+              },
+              () => {
+                boxEl3.style.transform = `translateY(-15vh) rotateZ(90deg)`;
+              },
+            ],
+            offsets: [0, -innerHeight / 2],
+          },
+          // Complex animation - 1
+          {
+            type: "complex",
+            startPointEl: point1,
+            finishPointEl: point2,
+            steps: [
+              () => {
+                myEl1.style.backgroundColor = `rgb(0, 0, 0)`;
+              },
+              (percentage) => {
+                myEl1.style.backgroundColor = `rgb(${15 * percentage}, ${
+                  155 * percentage
+                }, ${135 * percentage})`;
+              },
+              () => {
+                myEl1.style.backgroundColor = `rgb(15, 155, 135)`;
+              },
+            ],
+          },
+          {
+            type: "complex",
+            startPointEl: point2,
+            finishPointEl: point3,
+            steps: [
+              () => {
+                myEl0.style.transform = `rotateZ(0deg)`;
+              },
+              (percentage) => {
+                myEl0.style.transform = `rotateZ(${90 * percentage}deg)`;
+              },
+              () => {
+                myEl0.style.transform = `rotateZ(90deg)`;
+              },
+            ],
+          },
+          {
+            type: "complex",
+            startPointEl: point4,
+            finishPointEl: point5,
+            steps: [
+              () => {
+                myEl1.style.backgroundColor = `rgb(15, 155, 135)`;
+                myEl0.style.transform = `rotateZ(90deg)`;
+              },
+              (percentage) => {
+                myEl1.style.backgroundColor = `rgb(${15 - 15 * percentage}, ${
+                  155 - 155 * percentage
+                }, ${135 - 135 * percentage})`;
+                myEl0.style.transform = `rotateZ(${90 - 90 * percentage}deg)`;
+              },
+              () => {
+                myEl1.style.backgroundColor = `rgb(0, 0, 0)`;
+                myEl0.style.transform = `rotateZ(0deg)`;
+              },
+            ],
+            offsets: [innerHeight / 2, innerHeight / 2],
+          },
+        ];
+
+        scrollBasedAnimator(sbAnimationObjs);
+      };
+    </script>
   </body>
 </html>

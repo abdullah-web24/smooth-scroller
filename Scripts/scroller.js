@@ -84,6 +84,7 @@ const smoothScroller = function (settings) {
       page: theEl.children[0].firstElementChild,
       heightEl: theEl.children[1],
       scrollHeight: 0,
+      stage: -1, // An a innitial value of stage
     };
 
     allSubScrollerObjs.push(theObj);
@@ -94,13 +95,19 @@ const smoothScroller = function (settings) {
     let theValue = theObj.mainCont.getBoundingClientRect().top;
     if (theValue < 0 && theValue > -theObj.heightEl.clientHeight) {
       theObj.page.style.left = `${theValue}px`;
+      theObj.stage = 1;
       // console.log("Hi 1");
-    } else if (theValue >= 0) {
+    } else if (theValue >= 0 && theObj.stage !== 0) {
+      theObj.stage = 0;
       theObj.page.style.left = `0`;
-      // console.log("Hi 2");
-    } else if (theValue <= -theObj.heightEl.clientHeight) {
+      // console.log("Hi 0");
+    } else if (
+      theValue <= -theObj.heightEl.clientHeight &&
+      theObj.stage !== 2
+    ) {
+      theObj.stage = 2;
       theObj.page.style.left = `${-theObj.heightEl.clientHeight}px`;
-      // console.log("Hi 3");
+      // console.log("Hi 2");
     }
   };
 
@@ -283,7 +290,7 @@ const smoothScroller = function (settings) {
         document.body.classList.add("scroller-activated");
       });
       theObj.scrollbarX.addEventListener("touchstart", (theEvent) => {
-        theEvent.preventDefault();
+        if (theEvent.cancelable) theEvent.preventDefault();
       });
 
       theObj.scrollbarY.addEventListener("pointerdown", () => {
@@ -291,7 +298,7 @@ const smoothScroller = function (settings) {
         document.body.classList.add("scroller-activated");
       });
       theObj.scrollbarY.addEventListener("touchstart", (theEvent) => {
-        theEvent.preventDefault();
+        if (theEvent.cancelable) theEvent.preventDefault();
       });
     }
   });

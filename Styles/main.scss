@@ -105,6 +105,111 @@ body {
           }
         }
       }
+
+      .cont-1 {
+        height: 250vh;
+        width: 100%;
+        background-color: rgb(55, 65, 145);
+        position: relative;
+
+        .box {
+          height: 20vw;
+          width: 20vw;
+          background-color: rgb(245, 245, 245);
+          position: sticky;
+          top: 0;
+          left: 0;
+          z-index: 1;
+
+          .anim-1 {
+            height: 50%;
+            width: 100%;
+            background-color: black;
+          }
+          .anim-3 {
+            height: 50%;
+            width: 100%;
+          }
+        }
+
+        .break-point {
+          height: 1px;
+          width: 100%;
+          display: flex;
+          justify-content: flex-end;
+          align-items: flex-end;
+
+          &.point1 {
+            margin-top: calc(100vh - 20vw);
+            background-color: red;
+
+            &::after {
+              content: "Starting point";
+              background-color: red;
+            }
+          }
+          &.point2 {
+            margin-top: 35vh;
+            background-color: red;
+
+            &::after {
+              content: "Middle point";
+              background-color: red;
+            }
+          }
+          &.point3 {
+            margin-top: 30vh;
+            background-color: red;
+
+            &::after {
+              content: "Finish point";
+              background-color: red;
+            }
+          }
+          &.point4 {
+            background-color: rgb(17, 155, 51);
+            margin-top: 45vh;
+
+            &::after {
+              content: "Starting point";
+              background-color: rgb(17, 155, 51);
+            }
+          }
+          &.point5 {
+            background-color: rgb(17, 155, 51);
+            position: absolute;
+            bottom: 0;
+
+            &::after {
+              content: "Finish point";
+              background-color: rgb(17, 155, 51);
+            }
+          }
+
+          &::after {
+            height: max-content;
+            width: max-content;
+            font-size: 0.75rem;
+            border-radius: 3px;
+            padding: 3px 5px;
+            display: block;
+          }
+        }
+      }
+
+      .cont-2 {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        gap: 5vw;
+
+        .parallux-element {
+          width: 100%;
+          height: 50vh;
+          background-color: rgb(55, 65, 145);
+          display: block;
+        }
+      }
     }
   }
 }
