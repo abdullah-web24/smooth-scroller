@@ -7,12 +7,11 @@ const smoothScroller = function (settings) {
   // Settings obj
   settings = {
     customScrollbar: settings?.customScrollbar === undefined ? true : false,
-    usingFixedElements:
-      settings?.usingFixedElements === undefined ? true : false,
+    hasFixedElements: settings?.hasFixedElements === undefined ? true : false,
     accessMainObjects: settings?.accessMainObjects === undefined ? false : true,
   };
 
-  // Scroller ELs
+  // Scroller Els
   let allScrollerEls,
     allSubScrollerEls = [
       ...document.querySelectorAll(".sub-scroller-main-cont"),
@@ -20,21 +19,24 @@ const smoothScroller = function (settings) {
   const allScrollerObjs = [],
     allSubScrollerObjs = [];
 
-  for (let i = 0; i < allSubScrollerEls.length; i++) {
-    const oldInnerEls = allSubScrollerEls[i].innerHTML,
-      newInnerEls = `
-      <div class="sub-scroller-cont">
-        <div class="sub-scroller-page">
-          ${oldInnerEls}
-        </div>
-      </div>
-      <div class="scroller-height"></div>
-    `;
+  // Sub Scroller Els
+  if (allSubScrollerEls) {
+    for (let i = 0; i < allSubScrollerEls.length; i++) {
+      const oldInnerEls = allSubScrollerEls[i].innerHTML,
+        newInnerEls = `
+          <div class="sub-scroller-cont">
+            <div class="sub-scroller-page">
+              ${oldInnerEls}
+            </div>
+          </div>
+          <div class="scroller-height"></div>
+        `;
 
-    allSubScrollerEls[i].innerHTML = newInnerEls;
-    allSubScrollerEls = [
-      ...document.querySelectorAll(".sub-scroller-main-cont"),
-    ];
+      allSubScrollerEls[i].innerHTML = newInnerEls;
+      allSubScrollerEls = [
+        ...document.querySelectorAll(".sub-scroller-main-cont"),
+      ];
+    }
   }
 
   allScrollerEls = [...document.querySelectorAll(".scroller-main-cont")];
@@ -64,6 +66,7 @@ const smoothScroller = function (settings) {
     allScrollerEls = [...document.querySelectorAll(".scroller-main-cont")];
   }
 
+  // Sub Scroller Functions
   allSubScrollerEls = [...document.querySelectorAll(".sub-scroller-main-cont")];
 
   const subScrollerHeightFix = (theObj) => {
@@ -77,7 +80,7 @@ const smoothScroller = function (settings) {
     }
   };
 
-  allSubScrollerEls.forEach((theEl) => {
+  allSubScrollerEls?.forEach((theEl) => {
     const theObj = {
       mainCont: theEl,
       scrollerCont: theEl.children[0],
@@ -312,7 +315,7 @@ const smoothScroller = function (settings) {
     }
   });
 
-  // Setting's condition
+  // Custom Scrollbar function
   if (settings.customScrollbar) {
     const scrollerExtraValueCalc = (theValue) => {
       scrollerExtraValue += theValue % 1;
@@ -370,7 +373,7 @@ const smoothScroller = function (settings) {
   // Scroll to any point - Function
   const subScrollerNestedInedxFinder = (theEl) => {
     let subScrollerNestedInedx = undefined;
-    allSubScrollerEls.forEach((el) => {
+    allSubScrollerEls?.forEach((el) => {
       if (el.contains(theEl))
         subScrollerNestedInedx = el.dataset.mainScrollerIndex;
     });
@@ -448,7 +451,7 @@ const smoothScroller = function (settings) {
         )
       ) {
         // Setting's condition
-        if (settings.usingFixedElements) {
+        if (settings.hasFixedElements) {
           theObj.page.style.left = `${thisScrollValues[0]}px`;
           theObj.page.style.top = `${thisScrollValues[1]}px`;
         } else
@@ -469,12 +472,12 @@ const smoothScroller = function (settings) {
 
         theObj.scrollValues = thisScrollValues;
       }
-      allSubScrollerObjs.forEach((theObj) => subScroller(theObj));
+      allSubScrollerObjs?.forEach((theObj) => subScroller(theObj));
 
       containerResizer(theObj);
     });
 
-    allSubScrollerObjs.forEach((theObj) => subScrollerHeightFix(theObj));
+    allSubScrollerObjs?.forEach((theObj) => subScrollerHeightFix(theObj));
 
     requestAnimationFrame(scrollerAnimator);
   };
@@ -558,8 +561,7 @@ const smoothScroller = function (settings) {
   // ----- Main Scroller functions //
 
   // Setting's statement
-  if (settings.accessMainObjects)
-    return { allScrollerObjs, allSubScrollerObjs };
+  if (settings.accessMainObjects) return [allScrollerObjs, allSubScrollerObjs];
 };
 
 smoothScroller();
