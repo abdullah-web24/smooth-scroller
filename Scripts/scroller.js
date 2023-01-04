@@ -1,9 +1,6 @@
 const smoothScroller = function (settings) {
   "use strict";
 
-  // ----- ( 1 )
-  // ----- Initialisations ----- >>>
-
   // Settings obj
   settings = {
     customScrollbar: settings?.customScrollbar === undefined ? true : false,
@@ -11,64 +8,80 @@ const smoothScroller = function (settings) {
     accessMainObjects: settings?.accessMainObjects === undefined ? false : true,
   };
 
-  // Scroller Els
+  // Defining Variables
   let allScrollerEls,
     allSubScrollerEls = [
       ...document.querySelectorAll(".sub-scroller-main-cont"),
-    ];
+    ],
+    allTabNavigators,
+    activeNavIndex = -1,
+    activeScrollObj = undefined,
+    scrollerExtraValue = 0;
+
   const allScrollerObjs = [],
-    allSubScrollerObjs = [];
+    allSubScrollerObjs = [],
+    minScrollbarHeight = Math.round(innerWidth * (2.5 / 100));
 
-  // Sub Scroller Els
-  if (allSubScrollerEls) {
-    for (let i = 0; i < allSubScrollerEls.length; i++) {
-      const oldInnerEls = allSubScrollerEls[i].innerHTML,
-        newInnerEls = `
-          <div class="sub-scroller-cont">
-            <div class="sub-scroller-page">
-              ${oldInnerEls}
+  // ----- ( 1 )
+  // ----- Initialisations ----- >>>
+
+  const subScrollerInitializer = () => {
+    if (allSubScrollerEls) {
+      for (let i = 0; i < allSubScrollerEls.length; i++) {
+        const oldInnerEls = allSubScrollerEls[i].innerHTML,
+          newInnerEls = `
+            <div class="sub-scroller-cont">
+              <div class="sub-scroller-page">
+                ${oldInnerEls}
+              </div>
             </div>
-          </div>
-          <div class="scroller-height"></div>
-        `;
+            <div class="scroller-height"></div>
+          `;
 
-      allSubScrollerEls[i].innerHTML = newInnerEls;
-      allSubScrollerEls = [
-        ...document.querySelectorAll(".sub-scroller-main-cont"),
-      ];
+        allSubScrollerEls[i].innerHTML = newInnerEls;
+        allSubScrollerEls = [
+          ...document.querySelectorAll(".sub-scroller-main-cont"),
+        ];
+      }
     }
-  }
+  };
+  subScrollerInitializer();
 
   allScrollerEls = [...document.querySelectorAll(".scroller-main-cont")];
 
-  for (let i = 0; i < allScrollerEls.length; i++) {
-    const oldInnerEls = allScrollerEls[i].innerHTML,
-      newInnerEls = `
-      <div class="scroller-cont">
-        <div class="scroller-page-wrapper">
-          <div class="scroller-page">
-            ${oldInnerEls}
-          </div>
-        </div>
+  const scrollerInitializer = () => {
+    if (allScrollerEls) {
+      for (let i = 0; i < allScrollerEls.length; i++) {
+        const oldInnerEls = allScrollerEls[i].innerHTML,
+          newInnerEls = `
+            <div class="scroller-cont">
+              <div class="scroller-page-wrapper">
+                <div class="scroller-page">
+                  ${oldInnerEls}
+                </div>
+              </div>
 
-        <div class="scrollbarY-cont">
-          <div class="scrollbarY"></div>
-        </div>
+              <div class="scrollbarY-cont">
+                <div class="scrollbarY"></div>
+              </div>
 
-        <div class="scrollbarX-cont">
-          <div class="scrollbarX"></div>
-        </div>
-      </div>
-      <div class="scroller-height"></div>
-    `;
+              <div class="scrollbarX-cont">
+                <div class="scrollbarX"></div>
+              </div>
+            </div>
+            <div class="scroller-height"></div>
+          `;
 
-    allScrollerEls[i].innerHTML = newInnerEls;
-    allScrollerEls = [...document.querySelectorAll(".scroller-main-cont")];
-  }
+        allScrollerEls[i].innerHTML = newInnerEls;
+        allScrollerEls = [...document.querySelectorAll(".scroller-main-cont")];
+      }
+    }
+  };
+  scrollerInitializer();
 
-  // Sub Scroller Functions
   allSubScrollerEls = [...document.querySelectorAll(".sub-scroller-main-cont")];
 
+  // Sub Scroller Functions
   const subScrollerHeightFix = (theObj) => {
     let oldValue = theObj.scrollHeight,
       newValue = Math.floor(theObj.page.getBoundingClientRect().width);
@@ -80,37 +93,38 @@ const smoothScroller = function (settings) {
     }
   };
 
-  allSubScrollerEls?.forEach((theEl) => {
-    const theObj = {
-      mainCont: theEl,
-      scrollerCont: theEl.children[0],
-      page: theEl.children[0].firstElementChild,
-      heightEl: theEl.children[1],
-      scrollHeight: 0,
-      stage: -1, // An a innitial value of stage
-    };
+  const subScrollerObjMaker = () => {
+    allSubScrollerEls?.forEach((theEl) => {
+      const theObj = {
+        mainCont: theEl,
+        scrollerCont: theEl.children[0],
+        page: theEl.children[0].firstElementChild,
+        heightEl: theEl.children[1],
+        scrollHeight: 0,
+        stage: -1, // An a innitial value of stage
+      };
 
-    allSubScrollerObjs.push(theObj);
-    subScrollerHeightFix(theObj);
-  });
+      allSubScrollerObjs.push(theObj);
+      subScrollerHeightFix(theObj);
+    });
+  };
+  subScrollerObjMaker();
 
+  // Main Sub-scroller Function
   const subScroller = (theObj) => {
     let theValue = theObj.mainCont.getBoundingClientRect().top;
     if (theValue < 0 && theValue > -theObj.heightEl.clientHeight) {
       theObj.page.style.left = `${theValue}px`;
       theObj.stage = 1;
-      // console.log("Hi 1");
     } else if (theValue >= 0 && theObj.stage !== 0) {
       theObj.stage = 0;
       theObj.page.style.left = `0`;
-      // console.log("Hi 0");
     } else if (
       theValue <= -theObj.heightEl.clientHeight &&
       theObj.stage !== 2
     ) {
       theObj.stage = 2;
       theObj.page.style.left = `${-theObj.heightEl.clientHeight}px`;
-      // console.log("Hi 2");
     }
   };
 
@@ -123,16 +137,7 @@ const smoothScroller = function (settings) {
     ].filter((theEl) => theEl.tabIndex !== -1);
   };
 
-  const allTabNavigators = tabNavigatorFinder(allScrollerEls[0]);
-  let activeNavIndex = -1;
-  let activeScrollObj = undefined,
-    scrollerExtraValue = 0;
-  const minScrollbarHeight = Math.round(innerWidth * (2.5 / 100));
-
-  // ----- Initialisations //
-
-  // ----- ( 2 )
-  // ----- Main Scroller functions ----- >>>
+  allTabNavigators = tabNavigatorFinder(allScrollerEls[0]);
 
   // Height Width Calculator
   const elHeightCalc = (theObj) => {
@@ -175,9 +180,9 @@ const smoothScroller = function (settings) {
       theObj.heightEl.style.width = `${thisScrollHeights[0]}px`;
     }
 
-    // Setting's condition
+    // Scrollbar Height fixer
     if (settings.customScrollbar) {
-      // For Scrollbar
+      // For Scrollbar Height and Width
       let scrollbarWidth =
           Math.ceil(
             (theObj.scrollbarXCont.clientWidth / elWidth) *
@@ -218,6 +223,7 @@ const smoothScroller = function (settings) {
       theObj.scrollbarY.style.height = `${scrollbarHeight}px`;
       theObj.scrollbarX.style.width = `${scrollbarWidth}px`;
 
+      // Hide inactive Scrollbar
       if (elHeight <= theObj.pageWrapper.clientHeight) {
         if (!theObj.mainCont.classList.contains("auto-scrollerX"))
           theObj.mainCont.classList.add("hide-scrollerY");
@@ -235,6 +241,7 @@ const smoothScroller = function (settings) {
           : theObj.mainCont.classList.remove("hide-scrollerY");
       }
 
+      // Fixing scrollbar scrolling ratio
       theObj.scrollRatio[0] = (
         (elWidth - theObj.pageWrapper.clientWidth) /
         (theObj.scrollbarXCont.clientWidth - scrollbarWidth)
@@ -261,50 +268,55 @@ const smoothScroller = function (settings) {
     }
   };
 
-  // Making the scroller Object
-  allScrollerEls.forEach((theEl, i) => {
-    const theObj = {
-      mainCont: theEl,
-      // pageCont: theEl.children[0],
-      pageWrapper: theEl.children[0].children[0],
-      page: theEl.children[0].children[0].firstElementChild,
-      scrollbarYCont: theEl.children[0].children[1],
-      scrollbarY: theEl.children[0].children[1].firstElementChild,
-      scrollbarXCont: theEl.children[0].children[2],
-      scrollbarX: theEl.children[0].children[2].firstElementChild,
-      heightEl: theEl.children[1],
-      scrollValues: [0, 0],
-      scrollHeights: [0, 0],
-      scrollRatio: [0, 0],
-    };
+  const scrollerObjMaker = () => {
+    allScrollerEls?.forEach((theEl, i) => {
+      const theObj = {
+        mainCont: theEl,
+        // pageCont: theEl.children[0],
+        pageWrapper: theEl.children[0].children[0],
+        page: theEl.children[0].children[0].firstElementChild,
+        scrollbarYCont: theEl.children[0].children[1],
+        scrollbarY: theEl.children[0].children[1].firstElementChild,
+        scrollbarXCont: theEl.children[0].children[2],
+        scrollbarX: theEl.children[0].children[2].firstElementChild,
+        heightEl: theEl.children[1],
+        scrollValues: [0, 0],
+        scrollHeights: [0, 0],
+        scrollRatio: [0, 0],
+      };
 
-    scrollHeightFixer(theObj, elHeightCalc(theObj));
-    allScrollerObjs.push(theObj);
+      scrollHeightFixer(theObj, elHeightCalc(theObj));
+      allScrollerObjs.push(theObj);
 
-    [...theEl.querySelectorAll(".sub-scroller-main-cont")].forEach((el) => {
-      el.dataset.mainScrollerIndex = i;
+      // Detecting nested Sub-scroller
+      [...theEl.querySelectorAll(".sub-scroller-main-cont")].forEach((el) => {
+        el.dataset.mainScrollerIndex = i;
+      });
+
+      // Page mover by thumb - Function
+      if (settings.customScrollbar) {
+        theObj.scrollbarX.addEventListener("pointerdown", () => {
+          activeScrollObj = [theObj, "X"];
+          document.body.classList.add("scroller-activated");
+        });
+        theObj.scrollbarX.addEventListener("touchstart", (theEvent) => {
+          if (theEvent.cancelable) theEvent.preventDefault();
+        });
+
+        theObj.scrollbarY.addEventListener("pointerdown", () => {
+          activeScrollObj = [theObj, "Y"];
+          document.body.classList.add("scroller-activated");
+        });
+        theObj.scrollbarY.addEventListener("touchstart", (theEvent) => {
+          if (theEvent.cancelable) theEvent.preventDefault();
+        });
+      }
     });
+  };
+  scrollerObjMaker();
 
-    // Setting's condition
-    if (settings.customScrollbar) {
-      // Page mover by scroll - Function
-      theObj.scrollbarX.addEventListener("pointerdown", () => {
-        activeScrollObj = [theObj, "X"];
-        document.body.classList.add("scroller-activated");
-      });
-      theObj.scrollbarX.addEventListener("touchstart", (theEvent) => {
-        if (theEvent.cancelable) theEvent.preventDefault();
-      });
-
-      theObj.scrollbarY.addEventListener("pointerdown", () => {
-        activeScrollObj = [theObj, "Y"];
-        document.body.classList.add("scroller-activated");
-      });
-      theObj.scrollbarY.addEventListener("touchstart", (theEvent) => {
-        if (theEvent.cancelable) theEvent.preventDefault();
-      });
-    }
-  });
+  // ----- ( 2 )
+  // ----- Main Scroller functions ----- >>>
 
   // Scrollbar thumb mover events
   window.addEventListener("pointerup", () => {
@@ -315,7 +327,7 @@ const smoothScroller = function (settings) {
     }
   });
 
-  // Custom Scrollbar function
+  // Custom Scrollbar's functions
   if (settings.customScrollbar) {
     const scrollerExtraValueCalc = (theValue) => {
       scrollerExtraValue += theValue % 1;
@@ -350,79 +362,6 @@ const smoothScroller = function (settings) {
       }
     });
   }
-
-  // The offset position related to the parent scrollerCont
-  const offsetCalc = (theEl, parentObj) => {
-    let offsetTop = 0,
-      offsetLeft = 0;
-
-    if (theEl.offsetParent !== parentObj.page) {
-      let el = theEl;
-      while (el !== parentObj.page) {
-        offsetLeft += el.offsetLeft;
-        offsetTop += el.offsetTop;
-        el = el.offsetParent;
-      }
-    } else {
-      offsetLeft = theEl.offsetLeft;
-      offsetTop = theEl.offsetTop;
-    }
-    return [offsetLeft, offsetTop];
-  };
-
-  // Scroll to any point - Function
-  const subScrollerNestedInedxFinder = (theEl) => {
-    let subScrollerNestedInedx = undefined;
-    allSubScrollerEls?.forEach((el) => {
-      if (el.contains(theEl))
-        subScrollerNestedInedx = el.dataset.mainScrollerIndex;
-    });
-    return subScrollerNestedInedx;
-  };
-
-  const scrollToPoint = (theEl, parentObj, screenOffsets) => {
-    let offsetLeft,
-      offsetTop,
-      mainCont = parentObj.mainCont,
-      subScrollerNestedInedx = subScrollerNestedInedxFinder(theEl);
-
-    if (subScrollerNestedInedx === undefined) {
-      [offsetLeft, offsetTop] = offsetCalc(theEl, parentObj);
-    }
-
-    if (mainCont.classList.contains("scrollerY")) {
-      if (subScrollerNestedInedx !== undefined) {
-        let subScrollerNestedObj = allSubScrollerObjs[subScrollerNestedInedx];
-
-        [offsetLeft, offsetTop] = offsetCalc(theEl, subScrollerNestedObj);
-
-        let extraOffsetLeft =
-          offsetLeft +
-          theEl.clientWidth -
-          subScrollerNestedObj.scrollerCont.clientWidth;
-        extraOffsetLeft = extraOffsetLeft < 0 ? 0 : extraOffsetLeft;
-
-        let [, subOffsetTop] = offsetCalc(
-          subScrollerNestedObj.mainCont,
-          parentObj
-        );
-
-        subScrollerNestedObj.scrollerCont.scrollTo(0, 0);
-        mainCont.scrollTo(0, subOffsetTop + extraOffsetLeft);
-      } else {
-        mainCont.scrollTo(0, Math.round(offsetTop - screenOffsets[1]));
-      }
-    } else if (mainCont.classList.contains("scrollerX")) {
-      mainCont.scrollTo(Math.round(offsetLeft - screenOffsets[0]), 0);
-    } else if (mainCont.classList.contains("auto-scrollerX")) {
-      mainCont.scrollTo(0, Math.round(offsetLeft - screenOffsets[0]));
-    } else {
-      mainCont.scrollTo(
-        Math.round(offsetLeft - screenOffsets[0]),
-        Math.round(offsetTop - screenOffsets[1])
-      );
-    }
-  };
 
   // Resizer handler - function
   const containerResizer = function (theObj) {
@@ -483,7 +422,83 @@ const smoothScroller = function (settings) {
   };
   scrollerAnimator();
 
-  // Scroll to a element - function
+  // ----- ( 3 )
+  // ----- Navigator functions ----- >>>
+
+  // Target element's offset calculator
+  const offsetCalc = (theEl, parentObj) => {
+    let offsetTop = 0,
+      offsetLeft = 0;
+
+    if (theEl.offsetParent !== parentObj.page) {
+      let el = theEl;
+      while (el !== parentObj.page) {
+        offsetLeft += el.offsetLeft;
+        offsetTop += el.offsetTop;
+        el = el.offsetParent;
+      }
+    } else {
+      offsetLeft = theEl.offsetLeft;
+      offsetTop = theEl.offsetTop;
+    }
+    return [offsetLeft, offsetTop];
+  };
+
+  const subScrollerNestedInedxFinder = (theEl) => {
+    let subScrollerNestedInedx = undefined;
+    allSubScrollerEls?.forEach((el) => {
+      if (el.contains(theEl))
+        subScrollerNestedInedx = el.dataset.mainScrollerIndex;
+    });
+    return subScrollerNestedInedx;
+  };
+
+  // Scroll to any point function
+  const scrollToPoint = (theEl, parentObj, screenOffsets) => {
+    let offsetLeft,
+      offsetTop,
+      mainCont = parentObj.mainCont,
+      subScrollerNestedInedx = subScrollerNestedInedxFinder(theEl);
+
+    if (subScrollerNestedInedx === undefined) {
+      [offsetLeft, offsetTop] = offsetCalc(theEl, parentObj);
+    }
+
+    if (mainCont.classList.contains("scrollerY")) {
+      if (subScrollerNestedInedx !== undefined) {
+        let subScrollerNestedObj = allSubScrollerObjs[subScrollerNestedInedx];
+
+        [offsetLeft, offsetTop] = offsetCalc(theEl, subScrollerNestedObj);
+
+        let extraOffsetLeft =
+          offsetLeft +
+          theEl.clientWidth -
+          subScrollerNestedObj.scrollerCont.clientWidth;
+        extraOffsetLeft = extraOffsetLeft < 0 ? 0 : extraOffsetLeft;
+
+        let [, subOffsetTop] = offsetCalc(
+          subScrollerNestedObj.mainCont,
+          parentObj
+        );
+
+        subScrollerNestedObj.scrollerCont.scrollTo(0, 0);
+        mainCont.scrollTo(0, subOffsetTop + extraOffsetLeft);
+      } else {
+        mainCont.scrollTo(0, Math.round(offsetTop - screenOffsets[1]));
+      }
+    } else if (mainCont.classList.contains("scrollerX")) {
+      mainCont.scrollTo(Math.round(offsetLeft - screenOffsets[0]), 0);
+    } else if (mainCont.classList.contains("auto-scrollerX")) {
+      mainCont.scrollTo(0, Math.round(offsetLeft - screenOffsets[0]));
+    } else {
+      mainCont.scrollTo(
+        Math.round(offsetLeft - screenOffsets[0]),
+        Math.round(offsetTop - screenOffsets[1])
+      );
+    }
+  };
+
+  // Making array of Nesting sequence of target element
   const navSetCalc = (theEl) => {
     const navSet = [];
 
@@ -493,7 +508,8 @@ const smoothScroller = function (settings) {
     return navSet.sort();
   };
 
-  const scrollToPointScroller = (activeEl, screenOffsets) => {
+  // Main Scroll to any element - function
+  const scrollToPointHandler = (activeEl, screenOffsets) => {
     let activeElNavSet = navSetCalc(activeEl),
       currentNavObj =
         allScrollerObjs[activeElNavSet[activeElNavSet.length - 1]];
@@ -539,7 +555,7 @@ const smoothScroller = function (settings) {
       }
 
       let activeEl = allTabNavigators[activeNavIndex];
-      scrollToPointScroller(activeEl);
+      scrollToPointHandler(activeEl);
     }
   });
 
@@ -553,12 +569,10 @@ const smoothScroller = function (settings) {
     theEl.addEventListener("pointerdown", (theEvent) => {
       if (targetEl) {
         theEvent.preventDefault();
-        scrollToPointScroller(targetEl, [0, 0]);
+        scrollToPointHandler(targetEl, [0, 0]);
       }
     });
   });
-  // ---
-  // ----- Main Scroller functions //
 
   // Setting's statement
   if (settings.accessMainObjects) return [allScrollerObjs, allSubScrollerObjs];
