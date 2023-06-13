@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="./Styles/main.css" />
     <script src="./Scripts/scroller.js" defer></script>
     <script src="./Scripts/scroll-based-animator.js" defer></script>
+    <script src="./Scripts/sticky.js" defer></script>
   </head>
 
   <body>
@@ -123,9 +124,11 @@
       <div class="sect">
         <h2>Complex animation</h2>
         <div class="cont-1">
-          <div class="box">
-            <div class="anim-1"></div>
-            <div class="anim-2"></div>
+          <div class="sticky">
+            <div class="box">
+              <div class="anim-1"></div>
+              <div class="anim-2"></div>
+            </div>
           </div>
           <div class="break-point point1"></div>
           <div class="break-point point2"></div>
@@ -295,6 +298,17 @@
         ];
 
         scrollBasedAnimator(sbAnimationObjs);
+
+        // Sticky Elements Function
+
+        const stkAnimationObjs = [
+          {
+            pointEl: document.querySelector(".sticky"),
+            offsets: [50, 50],
+          },
+        ];
+
+        stickyAnimator(stkAnimationObjs);
       };
     </script>
   </body>

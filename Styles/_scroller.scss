@@ -130,9 +130,10 @@ body {
           top: 0;
           left: 0;
           transition: top var(--scroller-transition),
-            left var(--scroller-transition),
-            transform var(--scroller-transition); // Smooth
-          will-change: top, left, transform;
+            left var(--scroller-transition);
+          will-change: top, left;
+          // transition: transform var(--scroller-transition); // Smooth
+          // will-change: transform;
         }
       }
 

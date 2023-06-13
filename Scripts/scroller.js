@@ -364,15 +364,24 @@ const smoothScroller = function (settings) {
   }
 
   // Resizer handler - function
-  const containerResizer = function (theObj) {
+  const containerResizer = function (theObj, windowResized = false) {
     const oldValues = theObj.scrollHeights,
       elHeights = elHeightCalc(theObj),
       newValues = elHeights[0];
 
-    if (!(oldValues[0] === newValues[0] && oldValues[1] === newValues[1])) {
+    if (
+      !(oldValues[0] === newValues[0] && oldValues[1] === newValues[1]) ||
+      windowResized
+    ) {
       scrollHeightFixer(theObj, elHeights);
     }
   };
+
+  window.addEventListener("resize", () => {
+    allScrollerObjs.forEach((theObj) => {
+      containerResizer(theObj, true);
+    });
+  });
 
   // Main scroll animator function
   const scrollerAnimator = () => {
@@ -565,7 +574,8 @@ const smoothScroller = function (settings) {
   );
 
   scrollToPointEls.forEach((theEl) => {
-    let targetEl = document.getElementById(theEl.getAttribute("href").slice(1));
+    let theId = theEl.getAttribute("href").slice(1);
+    let targetEl = theId && document.getElementById(theId);
     theEl.addEventListener("pointerdown", (theEvent) => {
       if (targetEl) {
         theEvent.preventDefault();

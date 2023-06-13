@@ -46,6 +46,8 @@ body {
   }
 
   main {
+    background-color: rgb(25, 25, 25); // For Chrome lagging problem
+
     .hero-sect {
       padding-top: 3.5vw;
       height: 100vh;
@@ -112,23 +114,21 @@ body {
         background-color: rgb(55, 65, 145);
         position: relative;
 
-        .box {
-          height: 20vw;
-          width: 20vw;
-          background-color: rgb(245, 245, 245);
-          position: sticky;
-          top: 0;
-          left: 0;
-          z-index: 1;
+        .sticky {
+          .box {
+            height: 20vw;
+            width: 20vw;
+            background-color: rgb(245, 245, 245);
 
-          .anim-1 {
-            height: 50%;
-            width: 100%;
-            background-color: black;
-          }
-          .anim-3 {
-            height: 50%;
-            width: 100%;
+            .anim-1 {
+              height: 50%;
+              width: 100%;
+              background-color: black;
+            }
+            .anim-3 {
+              height: 50%;
+              width: 100%;
+            }
           }
         }
 
