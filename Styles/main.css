@@ -39,6 +39,7 @@ body .scroller-main-cont.scrollerX > .scroller-cont {
 }
 body .scroller-main-cont.scrollerX > .scroller-cont > .scroller-page-wrapper > .scroller-page {
   height: 100%;
+  width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
 }
@@ -49,11 +50,13 @@ body .scroller-main-cont.scrollerY > .scroller-cont {
   grid-template: 1fr 0/1fr 0.5vw;
 }
 body .scroller-main-cont.scrollerY > .scroller-cont > .scroller-page-wrapper > .scroller-page {
+  height: -webkit-max-content;
   height: -moz-max-content;
   height: max-content;
   width: 100%;
 }
 body .scroller-main-cont.scrollerY > .scroller-cont > .scroller-page-wrapper > .scroller-page .sub-scroller-main-cont {
+  height: -webkit-max-content;
   height: -moz-max-content;
   height: max-content;
   width: 100%;
@@ -63,6 +66,7 @@ body .scroller-main-cont.scrollerY > .scroller-cont > .scroller-page-wrapper > .
   height: 100vh;
   width: 100%;
   display: grid;
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   left: 0;
@@ -71,6 +75,7 @@ body .scroller-main-cont.scrollerY > .scroller-cont > .scroller-page-wrapper > .
 }
 body .scroller-main-cont.scrollerY > .scroller-cont > .scroller-page-wrapper > .scroller-page .sub-scroller-main-cont > .sub-scroller-cont > .sub-scroller-page {
   height: 100%;
+  width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
   display: block;
@@ -93,6 +98,7 @@ body .scroller-main-cont.auto-scrollerX > .scroller-cont {
 }
 body .scroller-main-cont.auto-scrollerX > .scroller-cont > .scroller-page-wrapper > .scroller-page {
   height: 100%;
+  width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
 }
@@ -106,6 +112,7 @@ body .scroller-main-cont > .scroller-cont {
   height: 100%;
   width: 100%;
   display: block;
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   left: 0;
@@ -121,16 +128,18 @@ body .scroller-main-cont > .scroller-cont > .scroller-page-wrapper {
   overflow: hidden;
 }
 body .scroller-main-cont > .scroller-cont > .scroller-page-wrapper > .scroller-page {
+  height: -webkit-max-content;
   height: -moz-max-content;
   height: max-content;
+  width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
   display: block;
   position: relative;
   top: 0;
   left: 0;
-  transition: top var(--scroller-transition), left var(--scroller-transition);
-  will-change: top, left;
+  transition: top var(--scroller-transition), left var(--scroller-transition), transform var(--scroller-transition);
+  will-change: top, left, transform;
 }
 body .scroller-main-cont > .scroller-cont > .scrollbarX-cont,
 body .scroller-main-cont > .scroller-cont > .scrollbarY-cont {
@@ -151,6 +160,7 @@ body .scroller-main-cont > .scroller-cont > .scrollbarY-cont > .scrollbarY {
   transition: transform var(--scroller-transition), background-color 0.3s var(--scroller-cubic-bezier);
   will-change: transform;
   border-radius: 0.5vw;
+  cursor: -webkit-grab;
   cursor: grab;
 }
 body .scroller-main-cont > .scroller-cont > .scrollbarX-cont > .scrollbarX:hover,
@@ -160,6 +170,7 @@ body .scroller-main-cont > .scroller-cont > .scrollbarY-cont > .scrollbarY:hover
 body .scroller-main-cont > .scroller-cont > .scrollbarX-cont > .scrollbarX:active,
 body .scroller-main-cont > .scroller-cont > .scrollbarY-cont > .scrollbarY:active {
   background-color: rgba(245, 245, 245, 0.95);
+  cursor: -webkit-grabbing;
   cursor: grabbing;
 }
 body .scroller-main-cont > .scroller-height {
@@ -173,7 +184,9 @@ body .scroller-main-cont > .scroller-height {
 body.scroller-activated {
   -webkit-user-select: none;
      -moz-user-select: none;
+      -ms-user-select: none;
           user-select: none;
+  cursor: -webkit-grabbing;
   cursor: grabbing;
 }
 body.scroller-activated .scroller-main-cont {
@@ -218,8 +231,10 @@ body p {
 }
 body a {
   display: block;
+  width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
+  height: -webkit-max-content;
   height: -moz-max-content;
   height: max-content;
   font-size: 1.25vw;
@@ -229,9 +244,6 @@ body a {
 }
 body .sect {
   padding: 7vw;
-}
-body main {
-  background-color: rgb(25, 25, 25);
 }
 body main .hero-sect {
   padding-top: 3.5vw;
@@ -294,6 +306,7 @@ body main .sect .cont-1 .box {
   height: 20vw;
   width: 20vw;
   background-color: rgb(245, 245, 245);
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   left: 0;
@@ -357,8 +370,10 @@ body main .sect .cont-1 .break-point.point5::after {
   background-color: rgb(17, 155, 51);
 }
 body main .sect .cont-1 .break-point::after {
+  height: -webkit-max-content;
   height: -moz-max-content;
   height: max-content;
+  width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
   font-size: 0.75rem;
