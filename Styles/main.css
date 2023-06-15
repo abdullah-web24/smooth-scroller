@@ -12,8 +12,8 @@
 }
 
 body {
-  height: 100vh;
-  width: 100vw;
+  height: 100svh;
+  width: 100svw;
   overflow: hidden;
 }
 body .scroller-main-cont {
@@ -235,7 +235,7 @@ body main {
 }
 body main .hero-sect {
   padding-top: 3.5vw;
-  height: 100vh;
+  height: 100svh;
   position: relative;
 }
 body main .hero-sect .scroll-indicator {
@@ -285,26 +285,22 @@ body main .sect .cont .scroller-main-cont .scroller-page {
   padding: 3vw 2.5vw;
 }
 body main .sect .cont-1 {
-  height: 250vh;
+  height: 250svh;
   width: 100%;
   background-color: rgb(55, 65, 145);
   position: relative;
 }
-body main .sect .cont-1 .box {
+body main .sect .cont-1 .sticky .box {
   height: 20vw;
   width: 20vw;
   background-color: rgb(245, 245, 245);
-  position: sticky;
-  top: 0;
-  left: 0;
-  z-index: 1;
 }
-body main .sect .cont-1 .box .anim-1 {
+body main .sect .cont-1 .sticky .box .anim-1 {
   height: 50%;
   width: 100%;
   background-color: black;
 }
-body main .sect .cont-1 .box .anim-3 {
+body main .sect .cont-1 .sticky .box .anim-3 {
   height: 50%;
   width: 100%;
 }
@@ -316,7 +312,7 @@ body main .sect .cont-1 .break-point {
   align-items: flex-end;
 }
 body main .sect .cont-1 .break-point.point1 {
-  margin-top: calc(100vh - 20vw);
+  margin-top: calc(100svh - 20vw);
   background-color: red;
 }
 body main .sect .cont-1 .break-point.point1::after {
@@ -324,7 +320,7 @@ body main .sect .cont-1 .break-point.point1::after {
   background-color: red;
 }
 body main .sect .cont-1 .break-point.point2 {
-  margin-top: 35vh;
+  margin-top: 35svh;
   background-color: red;
 }
 body main .sect .cont-1 .break-point.point2::after {
@@ -332,7 +328,7 @@ body main .sect .cont-1 .break-point.point2::after {
   background-color: red;
 }
 body main .sect .cont-1 .break-point.point3 {
-  margin-top: 30vh;
+  margin-top: 30svh;
   background-color: red;
 }
 body main .sect .cont-1 .break-point.point3::after {
@@ -341,7 +337,7 @@ body main .sect .cont-1 .break-point.point3::after {
 }
 body main .sect .cont-1 .break-point.point4 {
   background-color: rgb(17, 155, 51);
-  margin-top: 45vh;
+  margin-top: 45svh;
 }
 body main .sect .cont-1 .break-point.point4::after {
   content: "Starting point";
@@ -374,7 +370,7 @@ body main .sect .cont-2 {
 }
 body main .sect .cont-2 .parallux-element {
   width: 100%;
-  height: 50vh;
+  height: 50svh;
   background-color: rgb(55, 65, 145);
   display: block;
 }/*# sourceMappingURL=main.css.map */
