@@ -4,7 +4,6 @@ const smoothScroller = function (settings) {
   // Settings obj
   settings = {
     customScrollbar: settings?.customScrollbar === undefined ? true : false,
-    hasFixedElements: settings?.hasFixedElements === undefined ? true : false,
     accessMainObjects: settings?.accessMainObjects === undefined ? false : true,
   };
 
@@ -398,12 +397,8 @@ const smoothScroller = function (settings) {
           theObj.scrollValues[1] === thisScrollValues[1]
         )
       ) {
-        // Setting's condition
-        if (settings.hasFixedElements) {
-          theObj.page.style.left = `${thisScrollValues[0]}px`;
-          theObj.page.style.top = `${thisScrollValues[1]}px`;
-        } else
-          theObj.page.style.transform = `matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, ${thisScrollValues[0]}, ${thisScrollValues[1]}, 0, 1)`;
+        theObj.page.style.left = `${thisScrollValues[0]}px`;
+        theObj.page.style.top = `${thisScrollValues[1]}px`;
 
         // Setting's condition
         if (settings.customScrollbar) {

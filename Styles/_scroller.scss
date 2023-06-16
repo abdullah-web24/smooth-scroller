@@ -132,8 +132,6 @@ body {
           transition: top var(--scroller-transition),
             left var(--scroller-transition);
           will-change: top, left;
-          // transition: transform var(--scroller-transition); // Smooth
-          // will-change: transform;
         }
       }
 
