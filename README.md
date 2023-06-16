@@ -22,7 +22,7 @@ Simply follow this step by step guide :)
 
 - Wrap your all contents inside a wrapper and add `.scroller-main-cont` class.
 
-```bash
+```html
 <body>
     <main class="scroller-main-cont">
         <!-- All contents should be here -->
@@ -32,7 +32,7 @@ Simply follow this step by step guide :)
 
 - You can add a varient class to determine the scroller type. There are four types of scroller. `.scrollerX`, `.scrollerY`, `.auto-scrollerX` and the default.
 
-```bash
+```html
 <body>
     <main class="scroller-main-cont scrollerY">
         <!-- All contents should be here -->
@@ -50,7 +50,7 @@ Simply follow this step by step guide :)
 
 - You can add horizontal sub-scroller inside the vertical scrollbar which will be automatically scrolled by the parent scroller. For this, parent must have `.scrollerY` class and you have to add `.sub-scroller-main-cont` class to that wrapper.
 
-```bash
+```html
 <body>
     <main class="scroller-main-cont scrollerY">
         <!-- Some contents here -->
@@ -70,7 +70,7 @@ Simply follow this step by step guide :)
 
 - There are some options you can add to the `smoothScroller()` function giving an object as an argument. You can choose default scrollbar type.
 
-```bash
+```js
 smoothScroller({
     customScrollbar: true,  // If false, it will be the default scrollbar.
     accessMainObjects: false,   // If true, it will return all the scroller objects.
@@ -99,7 +99,7 @@ smoothScroller({
 >
 > You can animate many element as you wish in these fuctions.
 
-```bash
+```js
 const sbAnimationObjs = [
     {
     pointEl: pointEl1,
@@ -141,7 +141,7 @@ const sbAnimationObjs = [
 
 > `type: "complex"` has two point element. `startPointEl` and `finishPointEl`. The chaining animation happen when the first animation's `finishPointEl` is the secont animation's `startPointEl`.
 
-```bash
+```js
 const sbAnimationObjs = [
     {
     type: "complex",
@@ -204,7 +204,7 @@ You can use `position: sticky`. But in some browser like `Firefox` it only works
 
 - Now call the `stickyAnimator()` with the array of object as a parameter.
 
-```bash
+```js
 const stkAnimationObjs = [
     {
     pointEl: document.querySelector(".myEl"),
