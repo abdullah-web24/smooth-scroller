@@ -198,9 +198,9 @@ const sbAnimationObjs = [
 
 You can use `position: sticky`. But in some browser like `Firefox` it only works if that element is a direct child of the wrapper. To solve this problem you can use our `stickyAnimator()` function.
 
-- You have to wrap the element into a parent element.
+- Now you have to define an array of animation object. There will be a property called `pointEl` which will be the target Element.
 
-- Now you have to define an array of animation object. There will be a property called `pointEl` which will be the `parentEl`.
+- You can add any element as the parentElement by `parentEl`.
 
 - You can add offset which will work as `top` - `bottom` or `left` - `right` property on a `position: sticky` element.
 
