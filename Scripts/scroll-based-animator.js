@@ -116,6 +116,15 @@ const stickyAnimator = (animationObjs) => {
       ? animationObj.parentEl
       : theObj.pointEl.parentElement;
 
+    if (theObj.axis === "y")
+      theObj.extraOffset =
+        theObj.pointEl.getBoundingClientRect().top -
+        theObj.parentEl.getBoundingClientRect().top;
+    else
+      theObj.extraOffset =
+        theObj.pointEl.getBoundingClientRect().left -
+        theObj.parentEl.getBoundingClientRect().left;
+
     mainAnimationObjs.push(theObj);
 
     theObj.pointEl.style.position = "relative";
@@ -129,14 +138,20 @@ const stickyAnimator = (animationObjs) => {
         endValue;
 
       if (animationObj.axis === "y") {
-        mainValue = -parentElBoundingCLient.top + animationObj.offsets[0];
+        mainValue =
+          -parentElBoundingCLient.top +
+          animationObj.offsets[0] -
+          animationObj.extraOffset;
 
         endValue =
           parentElBoundingCLient.height -
           pointElBoundingClient.height -
           animationObj.offsets[1];
       } else {
-        mainValue = -parentElBoundingCLient.left + animationObj.offsets[0];
+        mainValue =
+          -parentElBoundingCLient.left +
+          animationObj.offsets[0] -
+          animationObj.extraOffset;
 
         endValue =
           parentElBoundingCLient.width -
@@ -150,14 +165,10 @@ const stickyAnimator = (animationObjs) => {
 
         if (animationObj.axis === "y")
           animationObj.pointEl.style.top = `${mainValue}px`;
-        // animationObj.pointEl.style.transform = `matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, ${mainValue}, 0, 1)`;
         else animationObj.pointEl.style.left = `${mainValue}px`;
-        // animationObj.pointEl.style.transform = `matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, ${mainValue}, 0, 0, 1)`;
       } else if (mainValue <= 0) {
         if (animationObj.stage !== 0) {
           animationObj.stage = 0;
-
-          // animationObj.pointEl.style.transform = `matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)`;
 
           animationObj.pointEl.style.top = `0`;
           animationObj.pointEl.style.left = `0`;
@@ -168,9 +179,7 @@ const stickyAnimator = (animationObjs) => {
 
           if (animationObj.axis === "y")
             animationObj.pointEl.style.top = `${endValue}px`;
-          // animationObj.pointEl.style.transform = `matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, ${endValue}, 0, 1)`;
           else animationObj.pointEl.style.left = `${endValue}px`;
-          // animationObj.pointEl.style.transform = `matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, ${endValue}, 0, 0, 1)`;
         }
       }
     });

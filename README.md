@@ -218,6 +218,7 @@ stickyAnimator(stkAnimationObjs);
 ```
 
 > There are few resons why I made this kind of syntax. One of them is to controll all of the animation from one place.
+> It has a limitation that, you should not change the position of the sticky element
 
 ## Features
 
