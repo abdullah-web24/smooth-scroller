@@ -22,21 +22,21 @@ Simply follow this step by step guide :)
 
 - Wrap your all contents inside a wrapper and add `.scroller-main-cont` class.
 
-```bash
+```html
 <body>
-    <main class="scroller-main-cont">
-        <!-- All contents should be here -->
-    </main>
+  <main class="scroller-main-cont">
+    <!-- All contents should be here -->
+  </main>
 </body>
 ```
 
 - You can add a varient class to determine the scroller type. There are four types of scroller. `.scrollerX`, `.scrollerY`, `.auto-scrollerX` and the default.
 
-```bash
+```html
 <body>
-    <main class="scroller-main-cont scrollerY">
-        <!-- All contents should be here -->
-    </main>
+  <main class="scroller-main-cont scrollerY">
+    <!-- All contents should be here -->
+  </main>
 </body>
 ```
 
@@ -50,17 +50,17 @@ Simply follow this step by step guide :)
 
 - You can add horizontal sub-scroller inside the vertical scrollbar which will be automatically scrolled by the parent scroller. For this, parent must have `.scrollerY` class and you have to add `.sub-scroller-main-cont` class to that wrapper.
 
-```bash
+```html
 <body>
-    <main class="scroller-main-cont scrollerY">
-        <!-- Some contents here -->
+  <main class="scroller-main-cont scrollerY">
+    <!-- Some contents here -->
 
-        <div class="sub-scroller-main-cont">
-            <!-- Some contents should be here -->
-        </div>
+    <div class="sub-scroller-main-cont">
+      <!-- Some contents should be here -->
+    </div>
 
-        <!-- Some contents there -->
-    </main>
+    <!-- Some contents there -->
+  </main>
 </body>
 ```
 
@@ -72,11 +72,11 @@ Simply follow this step by step guide :)
 
 - There are some options you can add to the `smoothScroller()` function giving an object as an argument. You can choose default scrollbar type.
 
-```bash
+```js
 smoothScroller({
-    customScrollbar: true,  // If false, it will be the default scrollbar.
-    accessMainObjects: false,   // If true, it will return all the scroller objects.
-})
+  customScrollbar: true, // If false, it will be the default scrollbar.
+  accessMainObjects: false, // If true, it will return all the scroller objects.
+});
 ```
 
 - You can change the animation style, easing function, duration etc. from the css file.
@@ -101,40 +101,40 @@ smoothScroller({
 >
 > You can animate many element as you wish in these fuctions.
 
-```bash
+```js
 const sbAnimationObjs = [
-    {
+  {
     pointEl: pointEl1,
     steps: [
-        () => {
-            // Here goes the initial style
-        },
-        (percentage) => {
-            // Here gose the animation style
-        },
-        () => {
-            // Here goes the last style
-        },
-    ]
-    },
-    {
+      () => {
+        // Here goes the initial style
+      },
+      (percentage) => {
+        // Here gose the animation style
+      },
+      () => {
+        // Here goes the last style
+      },
+    ],
+  },
+  {
     pointEl: pointEl2,
     steps: [
-        () => {
-            myEl1.style.transform = `translateY(0)`;
-            myEl2.style.height = `10px`;
-        },
-        (percentage) => {
-            myEl1.style.transform = `translateY(${7 * percentage}vw)`;
-            myEl2.style.height = `${50 * percentage}px`;
-        },
-        () => {
-            myEl1.style.transform = `translateY(7vw)`;
-            myEl2.style.height = `50px`;
-        },
+      () => {
+        myEl1.style.transform = `translateY(0)`;
+        myEl2.style.height = `10px`;
+      },
+      (percentage) => {
+        myEl1.style.transform = `translateY(${7 * percentage}vw)`;
+        myEl2.style.height = `${50 * percentage}px`;
+      },
+      () => {
+        myEl1.style.transform = `translateY(7vw)`;
+        myEl2.style.height = `50px`;
+      },
     ],
-    }
-]
+  },
+];
 ```
 
 > In this example, `myEl1` will have `translateY(0)` before the animation. The animation will start when `pointEl2` is entered into the viewport. `myEl1` will be changed from `translateY(0)` to `translateY(7vw)`. And the last value will be `translateY(7vw)`.
@@ -143,41 +143,41 @@ const sbAnimationObjs = [
 
 > `type: "complex"` has two point element. `startPointEl` and `finishPointEl`. The chaining animation happen when the first animation's `finishPointEl` is the secont animation's `startPointEl`.
 
-```bash
+```js
 const sbAnimationObjs = [
-    {
+  {
     type: "complex",
     startPointEl: pointEl1,
     finishPointEl: pointEl2,
     steps: [
-        () => {
+      () => {
         myEl1.style.transform = `rotateZ(0deg)`;
-        },
-        (percentage) => {
+      },
+      (percentage) => {
         myEl1.style.transform = `rotateZ(${90 * percentage}deg)`;
-        },
-        () => {
+      },
+      () => {
         myEl1.style.transform = `rotateZ(90deg)`;
-        },
+      },
     ],
-    },
-    {
+  },
+  {
     type: "complex",
     startPointEl: pointEl2,
     finishPointEl: pointEl3,
     steps: [
-        () => {
+      () => {
         myEl1.style.backgroundColor = `rgb(15, 155, 135)`;
-        },
-        (percentage) => {
+      },
+      (percentage) => {
         myEl1.style.transform = `rotateZ(${90 - 90 * percentage}deg)`;
-        },
-        () => {
+      },
+      () => {
         myEl1.style.transform = `rotateZ(0deg)`;
-        },
+      },
     ],
-    }
-]
+  },
+];
 ```
 
 > In this example, first animation will happen when the `pointEl1` enters into the viewport and the animation will finish when the `pointEl2` is entered into the viewport. `myEl1` will animate first time in this renge.
@@ -206,12 +206,12 @@ You can use `position: sticky`. But in some browser like `Firefox` it only works
 
 - Now call the `stickyAnimator()` with the array of object as a parameter.
 
-```bash
+```js
 const stkAnimationObjs = [
-    {
+  {
     pointEl: document.querySelector(".myEl"),
     offsets: [50, 50],
-    },
+  },
 ];
 
 stickyAnimator(stkAnimationObjs);
