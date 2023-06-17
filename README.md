@@ -68,6 +68,8 @@ Simply follow this step by step guide :)
 
 - You can change the animation style, easing function, duration etc. from the css file.
 
+- You have to add `data-classname` to select the container
+
 - There are some options you can add to the `smoothScroller()` function giving an object as an argument. You can choose default scrollbar type.
 
 ```bash

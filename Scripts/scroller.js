@@ -30,7 +30,9 @@ const smoothScroller = function (settings) {
         const oldInnerEls = allSubScrollerEls[i].innerHTML,
           newInnerEls = `
             <div class="sub-scroller-cont">
-              <div class="sub-scroller-page">
+              <div class="sub-scroller-page ${
+                allSubScrollerEls[i].dataset.classname || ""
+              }">
                 ${oldInnerEls}
               </div>
             </div>
@@ -55,7 +57,9 @@ const smoothScroller = function (settings) {
           newInnerEls = `
             <div class="scroller-cont">
               <div class="scroller-page-wrapper">
-                <div class="scroller-page">
+                <div class="scroller-page ${
+                  allScrollerEls[i].dataset.classname || ""
+                }">
                   ${oldInnerEls}
                 </div>
               </div>
